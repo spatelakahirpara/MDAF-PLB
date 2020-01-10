@@ -4,9 +4,24 @@ var bodyParser = require('body-parser');
 const util= require('util');
 var exec = util.promisify(require('child_process').exec);
 var outputString;
-
+const awsRoutes= require('./awsMain.js');
+app.use((req,res,next)=>{
+    res.header('Access-Control-Allow-Origin','*');
+    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    if('OPTIONS'==req.method)  {
+        res.sendStatus(200);
+    }
+    else{
+        next();
+    }
+});
 app.use(bodyParser.json());
+app.use(awsRoutes);
 app.listen(3000);
+
+
+//call();
 async function call(req,res,next){
     const {stdout,stderr} = await exec("~/Desktop/second.sh");
     outputString= stdout.toString();
@@ -21,6 +36,7 @@ async function call(req,res,next){
     
     
 }
+
 // async function call(req,res,next){
 //     const {stdout,stderr} = await exec("~/Desktop/second.sh");
 //     outputString=stdout.toString(); 
@@ -44,7 +60,7 @@ async function call(req,res,next){
 //     }
 
 // }
-call();
+
 
 process.on("unhandledRejection", (reason, p) => {
     console.log(reason + " ************** Unhandled Rejection at Promise ****************** ");
