@@ -2,7 +2,7 @@ var mysql= require('mysql');
 var util= require('util');
 
 const db= mysql.createConnection({
-    host:'database-toolchain.cwpq9ofvce1h.us-east-1.rds.amazonaws.com',
+    host:'',
     user: 'admin',
     password: 'adminadmin',
     database: 'toolchain_db',
